@@ -7,6 +7,20 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "mysqladmin",
+          "ping",
+          "--host=${DB_SERVER}",
+          "--user=${MYSQL_USER}",
+          "--password=${MYSQL_ROOT_PASSWORD}",
+        ]
+      interval: 5s
+      timeout: 10s
+      retries: 5
+      start_period: 5s
     networks:
       - prestashop_network
     volumes:
@@ -33,16 +47,38 @@ services:
       PS_FOLDER_INSTALL: ${PS_FOLDER_INSTALL:-install-dev}
       PS_FOLDER_ADMIN: ${PS_FOLDER_ADMIN:-admin-dev}
       PS_COUNTRY: ${PS_COUNTRY:-br}
-      PS_LANGUAGE: ${PS_LANGUAGE:-pt-br}
+      PS_LANGUAGE: ${PS_LANGUAGE:-br}
       PS_DEV_MODE: ${PS_DEV_MODE:-0}
       PS_HOST_MODE: ${PS_HOST_MODE:-0}
       PS_DEMO_MODE: ${PS_DEMO_MODE:-0}
       PS_ERASE_DB: ${PS_ERASE_DB:-0}      
     volumes:
       - psdata:/var/www/html
+      - ./prestashop/scripts:/scripts:ro
+      - ./prestashop/modules:/modules:rw
+    command: /scripts/start.sh
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:80 || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 1m      
     networks:
       - prestashop_network
-
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: myadmin
+    links:
+      - mysql
+    environment:
+      PMA_HOST: mysql5
+      PMA_PORT: 3306
+      PMA_ARBITRARY: 1
+    restart: unless-stopped
+    ports:
+      - 8081:80
+    networks:
+      - prestashop_network
 networks:
   prestashop_network:
 volumes:
