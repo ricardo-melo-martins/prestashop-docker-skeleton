@@ -1,10 +1,11 @@
 version: '3'
 services:
   mysql:
-    container_name: mysql5
+    container_name: ${DOCKER_DATABASE_NAME}
     image: mysql:5.7
     restart: unless-stopped
     environment:
+      COMPOSE_PROJECT_NAME: ${COMPOSE_PROJECT_NAME}
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
     healthcheck:
@@ -71,7 +72,7 @@ services:
     links:
       - mysql
     environment:
-      PMA_HOST: mysql5
+      PMA_HOST: ${DOCKER_DATABASE_NAME}
       PMA_PORT: 3306
       PMA_ARBITRARY: 1
     restart: unless-stopped

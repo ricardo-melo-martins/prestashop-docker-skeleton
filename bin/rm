@@ -1,0 +1,22 @@
+#!/bin/bash
+# rm - remove project
+set -o allexport && source .env && set +o allexport
+
+if [ $# -ne 1 ]; then
+    PROJECT_NAME=$COMPOSE_PROJECT_NAME
+else
+    PROJECT_NAME="$1"
+fi
+
+# stop all containers
+docker compose --project-name $PROJECT_NAME down --volumes
+
+# remove all containers (optional)
+# docker compose --project-name $PROJECT_NAME rm --stop --force --volumes
+
+# remove all volumes (optional)
+# to remove all unused volumes and free up space:
+docker volume prune --force
+
+# remove all networks (optional)
+docker network prune --force
