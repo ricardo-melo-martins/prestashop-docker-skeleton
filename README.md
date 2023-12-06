@@ -6,7 +6,14 @@ Update `.env`
 
 ## Build and Running 
 
+``` bash
+docker-compose -f docker-compose.yml -p <name-of-project> up -d
+
 ```
+
+or
+
+``` bash
 $ ./bin/up
 ```
 
@@ -33,12 +40,18 @@ http://localhost:8081
 
 ## Status
 
-```
+``` bash
 $ ./bin/status
 ```
 
 ## Clear/Remove
 
+``` bash
+docker compose --project-name <name-of-project> down --volumes
 ```
+
+or 
+
+``` bash
 $ ./bin/rm
 ```
