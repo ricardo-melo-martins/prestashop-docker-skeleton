@@ -1,8 +1,29 @@
 # Prestashop Docker
 
+Prestashop is an open-source e-commerce store.
+Runs virtualized in Docker to accelerate and assist in the development of libraries and themes
+
+`I use this repo for development, POCs and testing or learning new technologies and I do not recommend using it in production.`
+
+## Requirements
+
+- Docker desktop > 18.x
+
+## Install
+``` bash
+$ git clone git@github.com:ricardo-melo-martins/prestashop-docker-skeleton.git
+```
+and 
+
+```
+$ cd prestashop-docker-skeleton
+```
+
 ## Settings
 
-Update `.env`
+Copy `.env.example` to `.env`
+
+Update `.env` variables (optional)
 
 ## Build and Running 
 
@@ -55,3 +76,11 @@ or
 ``` bash
 $ ./bin/rm
 ```
+
+
+
+## License
+
+It is free under the MIT license and for more information see [here](LICENSE).
+
+With fun and :heart: by [Ricardo Melo Martins](https://github.com/ricardo-melo-martins).
