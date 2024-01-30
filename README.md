@@ -1,3 +1,9 @@
+<div align="right">
+
+### ⚡ RMM ⚡
+
+</div>
+
 # Prestashop Docker
 
 Prestashop is an open-source e-commerce store.
